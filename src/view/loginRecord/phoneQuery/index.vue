@@ -603,13 +603,11 @@
 </template>
   
   <script setup>
-import {
-  getAccountList,
-  // setUserInfo,
-  // deleteTack,
-  // enterSyncApi,
-  // sendMailGo,
-} from "@/api/userInfo";
+import // setUserInfo,
+// deleteTack,
+// enterSyncApi,
+// sendMailGo,
+"@/api/userInfo";
 import { virtualItemGetList } from "@/api/tack";
 import { setUserAuthorities } from "@/api/user";
 import { ref, watch } from "vue";
@@ -961,24 +959,24 @@ const handleCurrentChange = (val) => {
 
 // 查询
 const getTableData = async () => {
-  if (value2.value && value2.value.length) {
-    searchInfo.value.start = value2.value[0];
-    searchInfo.value.end = value2.value[1];
-  } else {
-    searchInfo.value.start = null;
-    searchInfo.value.end = null;
-  }
-  const table = await getAccountList({
-    page: page.value,
-    pageSize: pageSize.value,
-    ...searchInfo.value,
-  });
-  if (table.code === 0) {
-    tableData.value = table.data.list;
-    total.value = table.data.total;
-    page.value = table.data.page;
-    pageSize.value = table.data.pageSize;
-  }
+  // if (value2.value && value2.value.length) {
+  //   searchInfo.value.start = value2.value[0];
+  //   searchInfo.value.end = value2.value[1];
+  // } else {
+  //   searchInfo.value.start = null;
+  //   searchInfo.value.end = null;
+  // }
+  // const table = await getAccountList({
+  //   page: page.value,
+  //   pageSize: pageSize.value,
+  //   ...searchInfo.value,
+  // });
+  // if (table.code === 0) {
+  //   tableData.value = table.data.list;
+  //   total.value = table.data.total;
+  //   page.value = table.data.page;
+  //   pageSize.value = table.data.pageSize;
+  // }
 };
 const initPage = async () => {
   getTableData();

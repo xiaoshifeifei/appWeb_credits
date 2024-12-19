@@ -1,5 +1,4 @@
 import service from "@/utils/request";
-import serviceReality from "@/utils/requestReality";
 // 获取用户列表
 export const getUserList = (params) => {
   return service({
@@ -149,15 +148,6 @@ export const getVirtualItemOriginList = (params) => {
 export const betDetailGetList = (params) => {
   return service({
     url: "/app/user/betDetail",
-    method: "get",
-    params,
-  });
-};
-
-// 获取用户列表
-export const getAccountList = (params) => {
-  return serviceReality({
-    url: "/account/getAccounts",
     method: "get",
     params,
   });

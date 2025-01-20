@@ -217,7 +217,7 @@
           {{ t("tableColumn.award") }}
         </div>
         <div style="padding: 0 0 20px 40px; color: red; font-size: 12px">
-          提示：分别填写物品配置的重量 / 名称 / 数量
+          提示：分别填写物品配置的权重 / 名称 / 数量
         </div>
         <template v-for="(item, index) in form.award" :key="index">
           <el-row class="w-full">

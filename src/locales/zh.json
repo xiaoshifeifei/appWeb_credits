@@ -730,7 +730,7 @@
     "roomCode": "房间号",
     "mode": "模式",
     "initialize": "初始值",
-    "weight": "重量",
+    "weight": "权重",
     "game": "游戏",
     "num": "数量",
     "lang": "语言",

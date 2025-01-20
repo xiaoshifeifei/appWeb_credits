@@ -267,7 +267,6 @@ const num = ref(6); //每行个数
 const apiForm = ref(null);
 
 const getTableData = async () => {
-  console.log(234679);
   searchInfo.value.code = value2.value.code;
   searchInfo.value.name = value2.value.name;
   indexVal.value = value2.value.index;
@@ -478,7 +477,7 @@ td {
 }
 .edit {
   font-size: 12px;
-  color: #409eff;
+  color: #4caf50;
   cursor: pointer;
   position: absolute;
   right: 10px;
@@ -501,12 +500,12 @@ td {
 @keyframes borderEffect {
   0% {
     border-color: transparent;
-    box-shadow: 0 0 10px rgba(131, 218, 255, 0.7);
+    box-shadow: 0 0 10px rgba(98, 243, 105, 0.7);
   }
   50% {
     border-color: #409eff;
-    box-shadow: 0 0 20px rgba(131, 218, 255, 1),
-      0 0 30px rgba(131, 218, 255, 0.8);
+    box-shadow: 0 0 20px rgba(98, 243, 105, 0.1),
+      0 0 30px rgba(98, 243, 105, 0.8);
   }
   100% {
     border-color: transparent;

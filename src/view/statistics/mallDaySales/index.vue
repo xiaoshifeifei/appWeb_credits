@@ -317,7 +317,6 @@ const seeFunc = async (row) => {
   let rows = JSON.parse(JSON.stringify(row));
   rows.day = dataGet(rows.day);
   form.value = rows;
-  console.log("form.value.productSales ", form.value.productSales);
   dialogFormVisible.value = true;
 };
 const closeDialog = () => {

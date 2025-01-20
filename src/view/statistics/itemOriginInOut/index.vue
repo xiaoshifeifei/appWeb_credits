@@ -499,11 +499,14 @@ const getTableData = async () => {
     searchInfo.value.start = value2.value[0];
     searchInfo.value.end = value2.value[1];
   } else {
-    searchInfo.value.start = null;
-    searchInfo.value.end = null;
-    return ElMessage.warning(
-      t("tableColumn.placeholder") + t("tableColumn.time")
-    );
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    const isoDate = now.toISOString();
+    const now2 = new Date();
+    now2.setHours(23, 59, 59, 999);
+    const isoDate2 = now2.toISOString();
+    searchInfo.value.start = isoDate;
+    searchInfo.value.end = isoDate2;
   }
 
   const table = await getItemOriginInOut({

@@ -8,7 +8,7 @@
           @close="searchClear = false"
         ></SelectInput>
         <el-form-item>
-          <el-button type="primary" icon="search" @click="onSubmit">
+          <el-button type="success" icon="search" @click="onSubmit">
             {{ t("general.search") }}
           </el-button>
           <el-button icon="refresh" @click="onReset">
@@ -447,7 +447,7 @@ table {
 }
 th,
 td {
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   padding: 8px;
   text-align: left;
 }

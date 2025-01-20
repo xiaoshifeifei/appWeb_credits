@@ -31,7 +31,7 @@
           @close="paramsValue = false"
         ></DataTime>
         <el-form-item>
-          <el-button type="primary" icon="search" @click="onSubmit">
+          <el-button type="success" icon="search" @click="onSubmit">
             {{ t("general.search") }}
           </el-button>
           <el-button icon="refresh" @click="onReset">

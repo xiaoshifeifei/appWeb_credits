@@ -15,7 +15,7 @@
           class="keyword"
           placeholder="请输入文件名或备注"
         />
-        <el-button type="primary" icon="search" @click="getTableData"
+        <el-button type="success" icon="search" @click="getTableData"
           >查询</el-button
         >
       </div>

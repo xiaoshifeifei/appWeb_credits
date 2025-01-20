@@ -36,7 +36,7 @@
           @close="paramsValue = false"
         ></DataTime>
         <el-form-item>
-          <el-button type="primary" icon="search" @click="onSubmit">
+          <el-button type="success" icon="search" @click="onSubmit">
             {{ t("general.search") }}
           </el-button>
           <el-button icon="refresh" @click="onReset">
@@ -47,7 +47,7 @@
     </div>
     <div class="gva-table-box">
       <!-- <div class="gva-btn-list">
-        <el-button type="primary" icon="plus" @click="openDialog('add')">
+        <el-button type="success" icon="plus" @click="openDialog('add')">
           {{ t("general.add") }}
         </el-button>
       </div> -->

@@ -97,7 +97,7 @@
     .el-menu-item{
         border-radius: 2px;
         &.is-active{
-            background-color: var(--el-color-primary) !important;
+            background-color: #4caf50 !important;
             color: #fff !important;
         }
     }
@@ -115,7 +115,7 @@
 
 .el-sub-menu.is-active{
     > .el-sub-menu__title{
-        color: var(--el-color-primary) !important;
+        color: #4caf50 !important;
     }
 }
 

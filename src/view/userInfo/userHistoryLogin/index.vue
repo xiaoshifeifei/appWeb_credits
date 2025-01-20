@@ -86,7 +86,7 @@
           </el-row>
         </template>
         <el-form-item>
-          <el-button type="primary" icon="plus" @click="addItem()">
+          <el-button type="success" icon="plus" @click="addItem()">
             {{ t("general.add") }}
           </el-button>
         </el-form-item>
@@ -142,7 +142,7 @@
           </el-row>
         </template>
         <el-form-item>
-          <el-button type="primary" icon="plus" @click="addContent()">
+          <el-button type="success" icon="plus" @click="addContent()">
             {{ t("general.add") }}
           </el-button>
         </el-form-item>

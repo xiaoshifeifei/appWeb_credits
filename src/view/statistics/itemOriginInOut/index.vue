@@ -16,7 +16,7 @@
           @close="paramsValue = false"
         ></DataTime>
         <el-form-item>
-          <el-button type="primary" icon="search" @click="onSubmit">
+          <el-button type="success" icon="search" @click="onSubmit">
             {{ t("general.search") }}
           </el-button>
           <el-button icon="refresh" @click="onReset">
@@ -170,6 +170,7 @@
       :before-close="closeDialog"
       :show-close="false"
       style="background-color: #f7f7f7"
+      class="dra"
     >
       <template #header>
         <div class="flex justify-between items-center">
@@ -598,6 +599,11 @@ const tableRowClassName = ({ row, rowIndex }) => {
 }
 .spanTitle {
   width: 100%;
+}
+.origin {
+  & :deep(.el-table tr th .cell) {
+    color: #333 !important;
+  }
 }
 </style>
   

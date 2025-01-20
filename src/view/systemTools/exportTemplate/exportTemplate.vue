@@ -58,7 +58,7 @@
           <el-input v-model="searchInfo.templateID" placeholder="搜索条件" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="search" @click="onSubmit"
+          <el-button type="success" icon="search" @click="onSubmit"
             >查询</el-button
           >
           <el-button icon="refresh" @click="onReset">重置</el-button>
@@ -67,7 +67,7 @@
     </div>
     <div class="gva-table-box">
       <div class="gva-btn-list">
-        <el-button type="primary" icon="plus" @click="openDialog"
+        <el-button type="success" icon="plus" @click="openDialog"
           >新增</el-button
         >
 
@@ -275,7 +275,7 @@
             >
           </div>
           <div class="flex justify-end w-full">
-            <el-button type="primary" icon="plus" @click="addJoin"
+            <el-button type="success" icon="plus" @click="addJoin"
               >添加条件</el-button
             >
           </div>
@@ -331,7 +331,7 @@
             >
           </div>
           <div class="flex justify-end w-full">
-            <el-button type="primary" icon="plus" @click="addCondition"
+            <el-button type="success" icon="plus" @click="addCondition"
               >添加条件</el-button
             >
           </div>

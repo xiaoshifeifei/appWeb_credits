@@ -5,7 +5,7 @@
         <span class="text font-bold">{{
           t("view.dictionary.sysDictionaryDetail.dictionaryDetails")
         }}</span>
-        <el-button type="primary" icon="plus" @click="openDrawer">
+        <el-button type="success" icon="plus" @click="openDrawer">
           {{ t("view.dictionary.sysDictionaryDetail.addDictEntry") }}
         </el-button>
       </div>

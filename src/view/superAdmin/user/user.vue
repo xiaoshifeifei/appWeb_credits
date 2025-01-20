@@ -3,7 +3,7 @@
     <warning-bar :title="t('authority.authorityNote')" />
     <div class="gva-table-box">
       <div class="gva-btn-list">
-        <el-button type="primary" icon="plus" @click="addUser">{{
+        <el-button type="success" icon="plus" @click="addUser">{{
           t("user.addUser")
         }}</el-button>
       </div>

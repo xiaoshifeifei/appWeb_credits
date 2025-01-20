@@ -2,7 +2,7 @@
   <div>
     <div class="gva-table-box">
       <div class="gva-btn-list">
-        <el-button type="primary" icon="plus" @click="addMenu(0)">
+        <el-button type="success" icon="plus" @click="addMenu(0)">
           {{ t("menu.addRootMenu") }}
         </el-button>
       </div>

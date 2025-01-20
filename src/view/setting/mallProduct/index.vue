@@ -6,7 +6,7 @@
           <el-input v-model="searchInfo.Key" placeholder="key" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="search" @click="onSubmit">
+          <el-button type="success" icon="search" @click="onSubmit">
             {{ t("general.search") }}
           </el-button>
           <el-button icon="refresh" @click="onReset">
@@ -17,7 +17,7 @@
     </div>
     <div class="gva-table-box">
       <div class="gva-btn-list">
-        <el-button type="primary" icon="plus" @click="openDialog('add')">
+        <el-button type="success" icon="plus" @click="openDialog('add')">
           {{ t("general.add") }}
         </el-button>
       </div>
@@ -334,16 +334,6 @@
           :showTime="true"
           @closeTime="closeTime"
         ></SingleTime>
-        <div style="padding: 0 0 20px 40px; color: red; font-size: 12px">
-          类型提示：
-          <div style="margin: 5px 0">0 //占位</div>
-          <div style="margin: 5px 0">1 //金币</div>
-          <div style="margin: 5px 0">2 //钻石</div>
-          <div style="margin: 5px 0">3 //小猪金币存钱罐1</div>
-          <div style="margin: 5px 0">4 //小猪金币存钱罐2</div>
-          <div style="margin: 5px 0">5 //小猪钻石存钱罐1</div>
-          <div style="margin: 5px 0">6 //小猪钻石存钱罐2</div>
-        </div>
       </el-form>
     </el-drawer>
   </div>

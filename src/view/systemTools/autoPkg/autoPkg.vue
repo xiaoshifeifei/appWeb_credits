@@ -6,7 +6,7 @@
     />
     <div class="gva-table-box">
       <div class="gva-btn-list gap-3 flex items-center">
-        <el-button type="primary" icon="plus" @click="openDialog('addApi')">
+        <el-button type="success" icon="plus" @click="openDialog('addApi')">
           {{ t("general.add") }}
         </el-button>
       </div>

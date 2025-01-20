@@ -25,7 +25,7 @@
           @close="paramsValue = false"
         ></DataTime>
         <el-form-item>
-          <el-button type="primary" icon="search" @click="onSubmit">
+          <el-button type="success" icon="search" @click="onSubmit">
             {{ t("general.search") }}
           </el-button>
           <el-button icon="refresh" @click="onReset">
@@ -37,12 +37,12 @@
 
     <div class="gva-table-box">
       <!-- <div class="gva-btn-list">
-        <el-button type="primary" icon="plus" @click="openDialog('add')">
+        <el-button type="success" icon="plus" @click="openDialog('add')">
           新增
         </el-button>
       </div> -->
       <div class="gva-btn-list">
-        <el-button type="primary" icon="plus" @click="sendMail()">
+        <el-button type="success" icon="plus" @click="sendMail()">
           {{ t("tableColumn.sendAnEmail") }}
         </el-button>
       </div>
@@ -703,7 +703,7 @@
           </el-row>
         </template>
         <el-form-item>
-          <el-button type="primary" icon="plus" @click="addItem()">
+          <el-button type="success" icon="plus" @click="addItem()">
             {{ t("general.add") }}
           </el-button>
         </el-form-item>
@@ -758,7 +758,7 @@
           </el-row>
         </template>
         <el-form-item>
-          <el-button type="primary" icon="plus" @click="addContent()">
+          <el-button type="success" icon="plus" @click="addContent()">
             {{ t("general.add") }}
           </el-button>
         </el-form-item>

@@ -7,6 +7,7 @@
             v-model="searchInfo.type"
             clearable
             :placeholder="t('general.pleaseSelect')"
+            @change="searchChange()"
           >
             <el-option
               v-for="item in methodOptions"
@@ -284,6 +285,7 @@ const searchInfo = ref({ type: "daily" });
 
 const onReset = () => {
   searchInfo.value = { type: "daily" };
+  onSubmit();
 };
 // 搜索
 
@@ -545,6 +547,12 @@ const tableRowClassName = ({ row, rowIndex }) => {
   } else {
     return "warnBg";
   }
+};
+const searchChange = (e, params) => {
+  if (params && e.target.value == "") {
+    searchInfo.value[params] = null;
+  }
+  onSubmit();
 };
 </script>
 

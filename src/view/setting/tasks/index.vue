@@ -3,7 +3,13 @@
     <div class="gva-search-box">
       <el-form ref="searchForm" :inline="true" :model="searchInfo">
         <el-form-item label="ID">
-          <el-input clearable v-model="searchInfo.id" placeholder="ID" />
+          <el-input
+            clearable
+            v-model="searchInfo.id"
+            @blur="searchChange($event, 'id')"
+            placeholder="ID"
+            style="width: 200px"
+          />
         </el-form-item>
         <el-form-item>
           <el-button type="success" icon="search" @click="onSubmit">
@@ -670,6 +676,7 @@ const typeOptions = ref([
 
 const onReset = () => {
   searchInfo.value = {};
+  onSubmit();
 };
 
 const handleChange = (number, index, params, params2) => {
@@ -1041,6 +1048,12 @@ const tableRowClassName = ({ row, rowIndex }) => {
   } else {
     return "warnBg";
   }
+};
+const searchChange = (e, params) => {
+  if (params && e.target.value == "") {
+    searchInfo.value[params] = null;
+  }
+  onSubmit();
 };
 </script>
 

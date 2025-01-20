@@ -7,6 +7,8 @@
             clearable
             v-model="searchInfo.accountId"
             :placeholder="t('tableColumn.accountId')"
+            @blur="searchChange($event, 'accountId')"
+            style="width: 200px"
           />
         </el-form-item>
         <el-form-item :label="t('tableColumn.code')">
@@ -14,6 +16,7 @@
             clearable
             v-model="searchInfo.code"
             :placeholder="t('tableColumn.placeholder')"
+            @change="searchChange()"
           >
             <el-option
               v-for="item in completeOptions"
@@ -27,8 +30,9 @@
         <DataTime
           v-model="value2"
           :showTime="true"
+          :showTimes="showTimes"
           :paramsValue="paramsValue"
-          @close="paramsValue = false"
+          @close="(paramsValue = false), (showTimes = false)"
         ></DataTime>
         <el-form-item>
           <el-button type="success" icon="search" @click="onSubmit">
@@ -126,7 +130,7 @@ import { getUserItemInOut } from "@/api/userInfo";
 import { ElMessage } from "element-plus";
 import { virtualItemGetList } from "@/api/tack";
 import DataTime from "@/components/DataTime/index.vue";
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import dayjs from "dayjs";
 import { useI18n } from "vue-i18n"; // added by mohamed hassan to support multilanguage
@@ -145,101 +149,34 @@ const tableData = ref([]);
 const searchInfo = ref({});
 const completeOptions = ref([]);
 const paramsValue = ref(false);
+const showTimes = ref(false);
 const value2 = ref([]);
 
-const shortcuts = [
-  {
-    text: "Today",
-    value: () => {
-      const end = new Date();
-      const start = new Date();
-      return [start, end];
-    },
-  },
-  {
-    text: "Yesterday",
-    value: () => {
-      const end = new Date();
-      const start = new Date();
-      start.setTime(start.getTime() - 3600 * 1000 * 24);
-      end.setTime(end.getTime() - 3600 * 1000 * 24);
-      return [start, end];
-    },
-  },
-
-  {
-    text: "Last week",
-    value: () => {
-      const end = new Date();
-      const start = new Date();
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-      return [start, end];
-    },
-  },
-  {
-    text: "Last month",
-    value: () => {
-      const end = new Date();
-      const start = new Date();
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-      return [start, end];
-    },
-  },
-  {
-    text: "Last 3 months",
-    value: () => {
-      const end = new Date();
-      const start = new Date();
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-      return [start, end];
-    },
-  },
-];
-
-const handleDateChange = (params, index) => {
-  if (index === 0) {
-    let date = new Date(params);
-    let formattedDate =
-      date.getFullYear() +
-      "-" +
-      (date.getMonth() + 1).toString().padStart(2, "0") +
-      "-" +
-      date.getDate().toString().padStart(2, "0") +
-      " " +
-      "00" +
-      ":" +
-      "00" +
-      ":" +
-      "00";
-    const dataTime = new Date(formattedDate).getTime();
-    const myTime = new Date(dataTime);
-    const isoDate = dayjs(myTime).format("YYYY-MM-DDTHH:mm:ssZ");
-    searchInfo.value.start = isoDate;
-  } else if (index === 1) {
-    let date = new Date(params);
-    let formattedDate =
-      date.getFullYear() +
-      "-" +
-      (date.getMonth() + 1).toString().padStart(2, "0") +
-      "-" +
-      date.getDate().toString().padStart(2, "0") +
-      " " +
-      "23" +
-      ":" +
-      "59" +
-      ":" +
-      "59";
-    const dataTime = new Date(formattedDate).getTime();
-    const myTime = new Date(dataTime);
-    const isoDate = dayjs(myTime).format("YYYY-MM-DDTHH:mm:ssZ");
-    searchInfo.value.end = isoDate;
+const searchChange = (e, params) => {
+  if (searchInfo.value && !searchInfo.value.code) {
+    searchInfo.value.code = completeOptions.value[0].code;
   }
+  if (params && e.target.value == "") {
+    searchInfo.value[params] = null;
+  }
+  onSubmit();
 };
-
 const onReset = () => {
   searchInfo.value = {};
-  value2.value = [];
-  paramsValue.value = true;
+  searchInfo.value.code = completeOptions.value[0].code;
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  const isoDate = now.toISOString();
+  const now2 = new Date();
+  now2.setHours(23, 59, 59, 999);
+  const isoDate2 = now2.toISOString();
+  const isoArr = [isoDate, isoDate2];
+  const timeData = isoArr.map((item) => {
+    return item;
+  });
+
+  value2.value = timeData;
+  showTimes.value = true;
 };
 // 搜索
 
@@ -263,9 +200,7 @@ const handleCurrentChange = (val) => {
 // 查询
 const getTableData = async () => {
   if (!searchInfo.value.code || searchInfo.value.code === null) {
-    return ElMessage.warning(
-      t("tableColumn.placeholder") + t("tableColumn.code")
-    );
+    searchInfo.value.code = completeOptions.value[0].code;
   }
 
   if (value2.value && value2.value.length) {
@@ -301,9 +236,9 @@ const initPage = async () => {
     completeOptions.value = itemData.data.list;
     if (completeOptions.value.length) {
       searchInfo.value.code = completeOptions.value[0].code;
+      getTableData();
     }
   }
-  getTableData();
 };
 
 initPage();
@@ -326,10 +261,18 @@ const tableRowClassName = ({ row, rowIndex }) => {
     return "warnBg";
   }
 };
+watchEffect(() => {
+  if (value2.value) {
+    if (searchInfo.value && searchInfo.value.accountId) {
+      return;
+    }
+    getTableData();
+  }
+});
 </script>
 
   
-  <style scoped lang="scss">
+<style scoped lang="scss">
 .warning {
   color: #dc143c;
 }

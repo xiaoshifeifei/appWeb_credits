@@ -204,7 +204,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { getGameList, setGameSort } from "@/api/game";
 import SelectInput from "@/components/selectInput/selectInput.vue";
 import { ElMessage } from "element-plus";
@@ -292,10 +292,17 @@ const getTableData = async () => {
   }
 };
 getTableData();
+const searchChange = (e, params) => {
+  if (params && e.target.value == "") {
+    searchInfo.value[params] = null;
+  }
+  onSubmit();
+};
 
 const onReset = () => {
   searchInfo.value = {};
   searchClear.value = true;
+  value2.value = null;
 };
 const onSubmit = () => {
   page.value = 1;
@@ -433,6 +440,11 @@ const enterDialog = async () => {
     }
   });
 };
+watchEffect(() => {
+  if (value2.value) {
+    getTableData();
+  }
+});
 </script>
 
 <style>

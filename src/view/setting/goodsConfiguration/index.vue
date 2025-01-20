@@ -1,11 +1,7 @@
 <template>
   <div>
     <div class="gva-search-box">
-      <el-form ref="searchForm" :inline="true" :model="searchInfo">
-        <!-- <el-form-item label="code">
-          <el-input v-model="searchInfo.key" placeholder="code" />
-        </el-form-item> -->
-        <el-form-item>
+      <!-- <el-form ref="searchForm" :inline="true" :model="searchInfo">
           <el-button type="success" icon="search" @click="onSubmit">
             {{ t("general.search") }}
           </el-button>
@@ -13,7 +9,7 @@
             {{ t("general.reset") }}
           </el-button>
         </el-form-item>
-      </el-form>
+      </el-form> -->
     </div>
     <div class="gva-table-box">
       <div class="gva-btn-list">

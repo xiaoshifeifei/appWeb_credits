@@ -5,8 +5,9 @@
         <DataTime
           v-model="value2"
           :showTime="true"
+          :showTimes="showTimes"
           :paramsValue="paramsValue"
-          @close="paramsValue = false"
+          @close="(paramsValue = false), (showTimes = false)"
         ></DataTime>
         <el-form-item>
           <el-button type="success" icon="search" @click="onSubmit">
@@ -175,7 +176,7 @@
   <script setup>
 import { getMallDaySales } from "@/api/userInfo";
 import { ElMessage } from "element-plus";
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import DataTime from "@/components/DataTime/index.vue";
 import dayjs from "dayjs";
@@ -212,6 +213,7 @@ const dialogTitle = ref(t("view.dictionary.sysDictionary.details"));
 const form = ref({});
 const dialogFormVisible = ref(false);
 const paramsValue = ref(false);
+const showTimes = ref(false);
 const value2 = ref([]);
 const shortcuts = [
   {
@@ -330,8 +332,19 @@ const initForm = () => {
 };
 const onReset = () => {
   searchInfo.value = {};
-  value2.value = [];
-  paramsValue.value = true;
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  const isoDate = now.toISOString();
+  const now2 = new Date();
+  now2.setHours(23, 59, 59, 999);
+  const isoDate2 = now2.toISOString();
+  const isoArr = [isoDate, isoDate2];
+  const timeData = isoArr.map((item) => {
+    return item;
+  });
+
+  value2.value = timeData;
+  showTimes.value = true;
 };
 // 搜索
 
@@ -398,6 +411,11 @@ const tableRowClassName = ({ row, rowIndex }) => {
     return "warnBg";
   }
 };
+watchEffect(() => {
+  if (value2.value) {
+    getTableData();
+  }
+});
 </script>
 
   <style scoped lang="scss">

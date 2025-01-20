@@ -52,6 +52,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  showTimes: {
+    type: Boolean,
+    default: false,
+  },
   paramsValue: {
     type: Boolean,
     default: false,
@@ -185,13 +189,31 @@ watchEffect(() => {
     emits("update:modelValue", timeData);
   }
 });
+watchEffect(() => {
+  if (props.showTimes) {
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    const isoDate = now.toISOString();
+    const now2 = new Date();
+    now2.setHours(23, 59, 59, 999);
+    const isoDate2 = now2.toISOString();
+    const isoArr = [isoDate, isoDate2];
+    const timeData = isoArr.map((item) => {
+      // const isoDate = dayjs(item).format("YYYY-MM-DDTHH:mm:ssZ");
+      // return isoDate;
+      return item;
+    });
+    value2.value = timeData;
+    emits("close");
+  }
+});
 const clear = (val) => {
   value2.value = "";
 };
 watchEffect(() => {
   if (props.paramsValue) {
     value2.value = "";
-    emits("close");
+    // emits("close");
   }
 });
 </script>

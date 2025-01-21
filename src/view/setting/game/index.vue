@@ -470,6 +470,7 @@ td {
   height: 50px;
   position: relative;
   width: 10%;
+  border: 1px solid #71ac73;
 }
 
 .draggable-cell:nth-child(odd) {

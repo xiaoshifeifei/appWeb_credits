@@ -134,6 +134,10 @@
             <el-switch
               v-model="scope.row.status"
               inline-prompt
+              style="
+                --el-switch-on-color: #4caf50;
+                --el-switch-off-color: #ff4949;
+              "
               :active-value="0"
               :inactive-value="1"
               @change="
@@ -334,6 +338,10 @@
             v-model="formMail.status"
             inline-prompt
             :active-value="0"
+            style="
+              --el-switch-on-color: #4caf50;
+              --el-switch-off-color: #ff4949;
+            "
             :inactive-value="1"
           />
         </el-form-item>

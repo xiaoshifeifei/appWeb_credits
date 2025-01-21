@@ -145,6 +145,10 @@
               inline-prompt
               :active-value="1"
               :inactive-value="0"
+              style="
+                --el-switch-on-color: #4caf50;
+                --el-switch-off-color: #ff4949;
+              "
               @change="
                 () => {
                   switchStatus(scope.row);
@@ -299,6 +303,10 @@
           <el-switch
             v-model="form.status"
             inline-prompt
+            style="
+              --el-switch-on-color: #4caf50;
+              --el-switch-off-color: #ff4949;
+            "
             :active-value="1"
             :inactive-value="0"
           />

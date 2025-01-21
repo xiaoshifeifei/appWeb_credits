@@ -6,21 +6,26 @@
           <el-input
             clearable
             v-model="searchInfo.accountId"
+            @blur="searchChange($event, 'accountId')"
             :placeholder="t('tableColumn.accountId')"
+            style="width: 200px"
           />
         </el-form-item>
         <el-form-item :label="t('tableColumn.sender')">
           <el-input
             clearable
             v-model="searchInfo.sender"
+            @blur="searchChange($event, 'sender')"
             :placeholder="t('tableColumn.sender')"
+            style="width: 200px"
           />
         </el-form-item>
 
         <DataTime
           v-model="value2"
+          :showTimes="showTimes"
           :paramsValue="paramsValue"
-          @close="paramsValue = false"
+          @close="(paramsValue = false), (showTimes = false)"
         ></DataTime>
         <el-form-item>
           <el-button type="success" icon="search" @click="onSubmit">
@@ -429,7 +434,7 @@ import {
   virtualItemAdd,
   virtualItemGetList,
 } from "@/api/tack";
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import DataTime from "@/components/DataTime/index.vue";
 import SingleTime from "@/components/DataTime/singleTime.vue";
 import { ElMessage, ElMessageBox } from "element-plus";
@@ -477,6 +482,7 @@ const tableData = ref([]);
 const tableUser = ref([]);
 const searchInfo = ref({});
 const showTimeBo = ref(false);
+const showTimes = ref(false);
 const completeOptions = ref([
   { label: "EN", value: "en" },
   { label: "CN", value: "cn" },
@@ -690,8 +696,15 @@ const onReset = () => {
   searchInfo.value = {};
   value2.value = [];
   paramsValue.value = true;
+  showTimes.value = true;
+  getTableData();
 };
-
+const searchChange = (e, params) => {
+  if (params && e.target.value == "") {
+    searchInfo.value[params] = null;
+  }
+  onSubmit();
+};
 // 搜索
 
 const onSubmit = () => {
@@ -886,6 +899,14 @@ const tableRowClassName = ({ row, rowIndex }) => {
     return "warnBg";
   }
 };
+watchEffect(() => {
+  if (value2.value) {
+    if (searchInfo.value && searchInfo.value.accountId) {
+      return;
+    }
+    getTableData();
+  }
+});
 </script>
 
 

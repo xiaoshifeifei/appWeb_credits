@@ -6,13 +6,16 @@
           <el-input
             clearable
             v-model="searchInfo.accountId"
+            @blur="searchChange($event, 'accountId')"
             :placeholder="t('tableColumn.accountId')"
+            style="width: 200px"
           />
         </el-form-item>
         <el-form-item :label="t('tableColumn.origin')">
           <el-select
             clearable
             v-model="searchInfo.origin"
+            @change="searchChange()"
             :placeholder="t('tableColumn.placeholder')"
           >
             <el-option
@@ -27,6 +30,7 @@
           <el-select
             clearable
             v-model="searchInfo.code"
+            @change="searchChange()"
             :placeholder="t('tableColumn.placeholder')"
           >
             <el-option
@@ -40,8 +44,9 @@
 
         <DataTime
           v-model="value2"
+          :showTimes="showTimes"
           :paramsValue="paramsValue"
-          @close="paramsValue = false"
+          @close="(paramsValue = false), (showTimes = false)"
         ></DataTime>
         <el-form-item>
           <el-button type="success" icon="search" @click="onSubmit">
@@ -180,7 +185,7 @@
 import { getVirtualItemInList, getVirtualItemOriginList } from "@/api/userInfo";
 import { virtualItemGetList } from "@/api/tack";
 import DataTime from "@/components/DataTime/index.vue";
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useI18n } from "vue-i18n"; // added by mohamed hassan to support multilanguage
 const { t } = useI18n(); // added by mohamed hassan to support multilanguage
@@ -197,6 +202,7 @@ const tableData = ref([]);
 const searchInfo = ref({});
 const completeOptions = ref([]);
 const originOptions = ref([]);
+const showTimes = ref(false);
 const value2 = ref([]);
 const paramsValue = ref(false);
 
@@ -204,6 +210,15 @@ const onReset = () => {
   searchInfo.value = {};
   value2.value = [];
   paramsValue.value = true;
+  showTimes.value = true;
+  getTableData();
+};
+
+const searchChange = (e, params) => {
+  if (params && e.target.value == "") {
+    searchInfo.value[params] = null;
+  }
+  onSubmit();
 };
 // 搜索
 
@@ -362,6 +377,14 @@ const tableRowClassName = ({ row, rowIndex }) => {
     return "warnBg";
   }
 };
+watchEffect(() => {
+  if (value2.value) {
+    if (searchInfo.value && searchInfo.value.accountId) {
+      return;
+    }
+    getTableData();
+  }
+});
 </script>
 
 <style scoped lang="scss">

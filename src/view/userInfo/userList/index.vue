@@ -3,13 +3,21 @@
     <div class="gva-search-box">
       <el-form ref="searchForm" :inline="true" :model="searchInfo">
         <el-form-item :label="t('tableColumn.accountId')">
-          <el-input clearable v-model="searchInfo.accountId" placeholder="ID" />
+          <el-input
+            @blur="searchChange($event, 'accountId')"
+            clearable
+            v-model="searchInfo.accountId"
+            placeholder="ID"
+            style="width: 200px"
+          />
         </el-form-item>
         <el-form-item :label="t('tableColumn.accountType')">
           <el-select
             clearable
             v-model="searchInfo.accountType"
             :placeholder="t('tableColumn.placeholder')"
+            @change="searchChange()"
+            style="width: 200px"
           >
             <el-option
               v-for="item in accountTypeOption"
@@ -21,8 +29,9 @@
         </el-form-item>
         <DataTime
           v-model="value2"
+          :showTimes="showTimes"
           :paramsValue="paramsValue"
-          @close="paramsValue = false"
+          @close="(paramsValue = false), (showTimes = false)"
         ></DataTime>
         <el-form-item>
           <el-button type="success" icon="search" @click="onSubmit">
@@ -804,7 +813,7 @@ import SingleTime from "@/components/DataTime/singleTime.vue";
 import DataTime from "@/components/DataTime/index.vue";
 import CustomPic from "@/components/customPic/index.vue";
 import SignaturePad from "@/components/preview/index.vue";
-import { ref, watch } from "vue";
+import { ref, watch, watchEffect } from "vue";
 import { getAuthorityList } from "@/api/authority";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { useRouter } from "vue-router";
@@ -864,8 +873,14 @@ const rules = ref({
     { required: true, message: "请输入内容", trigger: "blur" },
   ],
 });
-
+const showTimes = ref(false);
 const paramsValue = ref(false);
+const searchChange = (e, params) => {
+  if (params && e.target.value == "") {
+    searchInfo.value[params] = null;
+  }
+  onSubmit();
+};
 
 const formMail = ref({
   receivers: [],
@@ -1131,6 +1146,7 @@ const onReset = () => {
   searchInfo.value = {};
   value2.value = [];
   paramsValue.value = true;
+  showTimes.value = true;
 };
 // 搜索
 
@@ -1435,6 +1451,11 @@ const tableRowClassName = ({ row, rowIndex }) => {
     return "warnBg";
   }
 };
+watchEffect(() => {
+  if (value2.value) {
+    getTableData();
+  }
+});
 </script>
   
 <style scoped lang="scss">

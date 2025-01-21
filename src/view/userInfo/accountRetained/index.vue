@@ -212,7 +212,7 @@
   <script setup>
 import { getAccountRetained } from "@/api/userInfo";
 import SingleTime from "@/components/DataTime/singleTime.vue";
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useI18n } from "vue-i18n"; // added by mohamed hassan to support multilanguage
 const { t } = useI18n(); // added by mohamed hassan to support multilanguage
@@ -232,6 +232,7 @@ const form = ref({});
 const dialogFormVisible = ref(false);
 const value2 = ref("");
 const paramsValue = ref(false);
+const timeShow = ref(false);
 const shortcuts = [
   {
     text: "Today",
@@ -271,11 +272,7 @@ const initForm = () => {
   apiForm.value.resetFields();
   form.value = {};
 };
-const onReset = () => {
-  value2.value = null;
-  searchInfo.value = {};
-  paramsValue.value = true;
-};
+
 // 搜索
 const disabledDate = (time) => {
   return time.getTime() > Date.now();
@@ -350,6 +347,29 @@ const tableRowClassName = ({ row, rowIndex }) => {
     return "";
   }
 };
+const onReset = () => {
+  value2.value = null;
+  searchInfo.value = {};
+  paramsValue.value = true;
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth() + 1; // 月份从0开始，需要加1
+  const day = currentDate.getDate();
+  const dataSrc = year + "-" + month + "-" + day + " 00:00:00";
+  const stamp = new Date(dataSrc).getTime();
+  const beijingTime = new Date(stamp).toISOString();
+  timeVal.value = beijingTime;
+  value2.value = beijingTime;
+  searchInfo.value.day = beijingTime;
+
+  onSubmit();
+};
+watchEffect(() => {
+  if (value2.value) {
+    searchInfo.value.day = value2.value;
+    getTableData();
+  }
+});
 </script>
 
 <style scoped lang="scss">

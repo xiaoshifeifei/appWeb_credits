@@ -6,14 +6,18 @@
           <el-input
             clearable
             v-model="searchInfo.orderNo"
+            @blur="searchChange($event, 'orderNo')"
             :placeholder="t('tableColumn.orderNo')"
+            style="width: 200px"
           />
         </el-form-item>
         <el-form-item :label="t('tableColumn.accountId')">
           <el-input
             clearable
             v-model="searchInfo.accountId"
+            @blur="searchChange($event, 'accountId')"
             :placeholder="t('tableColumn.accountId')"
+            style="width: 200px"
           />
         </el-form-item>
         <!-- <el-form-item
@@ -32,8 +36,9 @@
         </el-form-item> -->
         <DataTime
           v-model="value2"
+          :showTimes="showTimes"
           :paramsValue="paramsValue"
-          @close="paramsValue = false"
+          @close="(paramsValue = false), (showTimes = false)"
         ></DataTime>
         <el-form-item>
           <el-button type="success" icon="search" @click="onSubmit">
@@ -368,7 +373,7 @@ import {
   mallProductEdit,
   mallProductAdd,
 } from "@/api/tack";
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { useRouter } from "vue-router";
 import DataTime from "@/components/DataTime/index.vue";
@@ -407,11 +412,21 @@ const total = ref(0);
 const pageSize = ref(10);
 const tableData = ref([]);
 const searchInfo = ref({});
+const showTimes = ref(false);
 
 const onReset = () => {
   searchInfo.value = {};
   value2.value = [];
   paramsValue.value = true;
+  showTimes.value = true;
+  getTableData();
+};
+
+const searchChange = (e, params) => {
+  if (params && e.target.value == "") {
+    searchInfo.value[params] = null;
+  }
+  onSubmit();
 };
 // 搜索
 
@@ -769,6 +784,14 @@ const tableRowClassName = ({ row, rowIndex }) => {
     return "warnBg";
   }
 };
+watchEffect(() => {
+  if (value2.value) {
+    if (searchInfo.value && searchInfo.value.accountId) {
+      return;
+    }
+    getTableData();
+  }
+});
 </script>
 
 

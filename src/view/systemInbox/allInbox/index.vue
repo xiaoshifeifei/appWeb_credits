@@ -4,8 +4,9 @@
       <el-form ref="searchForm" :inline="true" :model="searchInfo">
         <DataTime
           v-model="value2"
+          :showTimes="showTimes"
           :paramsValue="paramsValue"
-          @close="paramsValue = false"
+          @close="(paramsValue = false), (showTimes = false)"
         ></DataTime>
         <el-form-item>
           <el-button type="success" icon="search" @click="onSubmit">
@@ -354,7 +355,7 @@ import {
   systemInboxEdit,
   virtualItemGetList,
 } from "@/api/tack";
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import DataTime from "@/components/DataTime/index.vue";
 import SingleTime from "@/components/DataTime/singleTime.vue";
@@ -371,6 +372,7 @@ const valueExpired = ref("");
 const value2 = ref([]);
 const apis = ref([]);
 const paramsValue = ref(false);
+const showTimes = ref(false);
 const form = ref({
   id: null,
   content: {},
@@ -561,6 +563,8 @@ const onReset = () => {
   searchInfo.value = {};
   value2.value = [];
   paramsValue.value = true;
+  showTimes.value = true;
+  getTableData();
 };
 
 // 搜索
@@ -733,6 +737,11 @@ const tableRowClassName = ({ row, rowIndex }) => {
     return "warnBg";
   }
 };
+watchEffect(() => {
+  if (value2.value) {
+    getTableData();
+  }
+});
 </script>
 
 

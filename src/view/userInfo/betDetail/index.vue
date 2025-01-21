@@ -6,7 +6,9 @@
           <el-input
             clearable
             v-model="searchInfo.accountId"
+            @blur="searchChange($event, 'accountId')"
             :placeholder="t('tableColumn.accountId')"
+            style="width: 200px"
           />
         </el-form-item>
         <el-form-item :label="t('tableColumn.gameCode')">
@@ -17,8 +19,10 @@
           /> -->
           <el-input
             clearable
+            @blur="searchChange($event, 'gameCode')"
             v-model="searchInfo.gameCode"
             placeholder="暂时只能搜索goldVolcano"
+            style="width: 200px"
           />
         </el-form-item>
         <TimePickMinute
@@ -162,7 +166,7 @@
   <script setup>
 import { betDetailGetList, getVirtualItemOriginList } from "@/api/userInfo";
 import TimePickMinute from "@/components/DataTime/timePickMinute.vue";
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useI18n } from "vue-i18n"; // added by mohamed hassan to support multilanguage
 const { t } = useI18n(); // added by mohamed hassan to support multilanguage
@@ -184,6 +188,7 @@ const onReset = () => {
   searchInfo.value = {};
   value2.value = [];
   paramsValue.value = true;
+  getTableData();
 };
 // 搜索
 
@@ -192,7 +197,12 @@ const onSubmit = () => {
   pageSize.value = 10;
   getTableData();
 };
-
+const searchChange = (e, params) => {
+  if (params && e.target.value == "") {
+    searchInfo.value[params] = null;
+  }
+  onSubmit();
+};
 // 分页
 const handleSizeChange = (val) => {
   pageSize.value = val;
@@ -266,6 +276,14 @@ const tableRowClassName = ({ row, rowIndex }) => {
     return "warnBg";
   }
 };
+watchEffect(() => {
+  if (value2.value) {
+    if (searchInfo.value && searchInfo.value.accountId) {
+      return;
+    }
+    getTableData();
+  }
+});
 </script>
   
 <style scoped lang="scss">
